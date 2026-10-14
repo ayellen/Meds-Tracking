@@ -1,0 +1,6 @@
+{
+  "name": "Wear OS Medication Logger",
+  "description": "Wear OS smartwatch app that logs medication doses directly to a Google Sheets spreadsheet with a single tap.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
