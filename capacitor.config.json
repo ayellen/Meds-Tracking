@@ -1,0 +1,9 @@
+{
+  "appId": "com.wearos.medlogger",
+  "appName": "Wear OS Medication Logger",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  }
+}

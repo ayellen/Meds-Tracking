@@ -23,6 +23,7 @@ import { INITIAL_MEDICATIONS } from './data/defaultMedications';
 import { WatchFace } from './components/WatchFace';
 import { SmartwatchHardware } from './components/SmartwatchHardware';
 import { CompanionWebApp } from './components/CompanionWebApp';
+import { ApkDownloadModal } from './components/ApkDownloadModal';
 import { feedback } from './services/audio';
 import {
   Watch,
@@ -33,6 +34,7 @@ import {
   AlertCircle,
   ShieldCheck,
   BatteryCharging,
+  Download,
 } from 'lucide-react';
 
 const STORAGE_KEY_MEDS = 'wearos_medication_list';
@@ -44,6 +46,7 @@ export default function App() {
   const [user, setUser] = useState<User | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isApkModalOpen, setIsApkModalOpen] = useState(false);
 
   // App mode: 'companion' (when not wearing watch) | 'watch' (smartwatch only) | 'split' (side-by-side)
   const [appMode, setAppMode] = useState<AppMode>(() => {
@@ -428,6 +431,15 @@ export default function App() {
               </button>
             </div>
 
+            <button
+              onClick={() => setIsApkModalOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-sky-500/20 to-emerald-500/20 hover:from-sky-500/30 hover:to-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-semibold shadow-sm transition active:scale-95"
+              title="Download Wear OS & Android APK"
+            >
+              <Download className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Download APK</span>
+            </button>
+
             {spreadsheetInfo && (
               <a
                 href={spreadsheetInfo.url}
@@ -494,6 +506,7 @@ export default function App() {
               }
               isLogging={isLogging}
               onSwitchToWatch={() => setAppMode('watch')}
+              onOpenApkModal={() => setIsApkModalOpen(true)}
             />
           </div>
         )}
@@ -618,6 +631,7 @@ export default function App() {
                 }
                 isLogging={isLogging}
                 onSwitchToWatch={() => setAppMode('watch')}
+                onOpenApkModal={() => setIsApkModalOpen(true)}
               />
             </div>
           </div>
@@ -625,9 +639,24 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-neutral-800/80 py-4 px-6 text-center text-xs text-neutral-500">
-        Medication Logger • Wear OS Smartwatch & Companion Web App • Google Sheets Connected
+      <footer className="border-t border-neutral-800/80 py-4 px-6 text-center text-xs text-neutral-500 flex flex-col sm:flex-row items-center justify-between gap-2 max-w-7xl mx-auto w-full">
+        <span>
+          Medication Logger • Wear OS Smartwatch & Companion Web App • Google Sheets Connected
+        </span>
+        <button
+          onClick={() => setIsApkModalOpen(true)}
+          className="text-emerald-400 hover:text-emerald-300 font-semibold flex items-center gap-1.5 transition"
+        >
+          <Download className="w-3.5 h-3.5" />
+          Download Android APK (~197 KB)
+        </button>
       </footer>
+
+      {/* APK Download & Sideloading Instructions Modal */}
+      <ApkDownloadModal
+        isOpen={isApkModalOpen}
+        onClose={() => setIsApkModalOpen(false)}
+      />
     </div>
   );
 }

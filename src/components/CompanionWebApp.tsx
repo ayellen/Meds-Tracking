@@ -56,6 +56,7 @@ interface CompanionWebAppProps {
   ) => Promise<boolean>;
   isLogging: boolean;
   onSwitchToWatch: () => void;
+  onOpenApkModal?: () => void;
 }
 
 export const CompanionWebApp: React.FC<CompanionWebAppProps> = ({
@@ -76,6 +77,7 @@ export const CompanionWebApp: React.FC<CompanionWebAppProps> = ({
   onLogDose,
   isLogging,
   onSwitchToWatch,
+  onOpenApkModal,
 }) => {
   // UI Tabs inside companion
   const [activeTab, setActiveTab] = useState<'log' | 'schedule' | 'sheet' | 'meds'>('log');
@@ -218,6 +220,17 @@ export const CompanionWebApp: React.FC<CompanionWebAppProps> = ({
                 </span>
               </div>
             </div>
+
+            {onOpenApkModal && (
+              <button
+                onClick={onOpenApkModal}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-gradient-to-r from-sky-500/20 to-emerald-500/20 hover:from-sky-500/30 hover:to-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-semibold shadow-sm transition active:scale-95"
+                title="Download Wear OS & Android APK file"
+              >
+                <Download className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Get APK</span>
+              </button>
+            )}
 
             <button
               onClick={onSwitchToWatch}
